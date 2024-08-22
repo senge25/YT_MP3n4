@@ -28,6 +28,19 @@ app.post("/convert-mp3",async (req,res) => {
    //如果没有输入网址或者没有输入就点击convert按钮的话就提醒错误
    if(videoId === undefined ||  videoId === "" || videoId === null ){
      return res.render("index",{success : false, message : "Please enter a video Id"});
+   }else{
+       const fetchAPI = await fetch('youtube-mp36.p.rapidapi.com/dl?id=${videoId}',{ "method":"Get",
+       "headers":{
+        "x-rapidapi-key" : process.env.API_KEY,
+        "x-rapidapi-host" : process.env.API_HOST
+       }
+    });
+    const fetchResponse = await fetchAPI.json();
+
+    if(fetchResponse.static === "ok")
+        return res.render("index", {success : true, song_title: fetchResponse.title, song_link : fetchResponse.link})
+    else
+        return res.render("index",{success:false,message : fetchResponse.msg})
    }
 })
 
