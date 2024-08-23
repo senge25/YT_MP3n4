@@ -10,20 +10,20 @@
 <body>
     <div class="top-container">
         <form action="/convert-mp3" method="POST" id="form">
-                 <!--youtube icon-->
             <h1><i class="fa fa-youtube-play" aria-hidden="true"></i>Youtube to MP3 Converter</h1>
             <h4>Enter the video URL</h4>
             <div>
                 <input type="text" name="videoURL" placeholder="Enter YouTube URL">
                 <button type="submit">Convert</button>
             </div>
+        </form>
     </div>
 
     <div class="bottom-container">
         <% if(typeof success !== "undefined" && success) { %>
             <div class="success">
                 <p><%= song_title %></p>
-                <a href="<%= song_link %>"><button id="download-btn">DOWNLOAD</button></a>
+                <a href="<%= song_link %>" download><button id="download-btn">DOWNLOAD</button></a>
             </div>
         <% } else if(typeof success !== "undefined" && !success) { %>
             <div class="errors">
