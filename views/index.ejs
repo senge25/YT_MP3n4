@@ -9,16 +9,20 @@
 </head>
 <body>
     <div class="top-container">
-        <form action="/convert-mp3" method="POST" id="form">
-            <h1><i class="fa fa-youtube-play" aria-hidden="true"></i>Youtube to MP3 Converter</h1>
+        <form action="/convert" method="POST" id="form">
+            <h1><i class="fa fa-youtube-play" aria-hidden="true"></i>Youtube Converter</h1>
             <h4>Enter the video URL</h4>
             <div>
-                <input type="text" name="videoURL" placeholder="Enter YouTube URL">
+                <input type="text" name="videoURL" placeholder="Enter YouTube URL" required>
+                <select name="format" id="format" required>
+                    <option value="mp3">MP3</option>
+                    <option value="mp4">MP4</option>
+                </select>
                 <button type="submit">Convert</button>
             </div>
         </form>
     </div>
-
+    
     <div class="bottom-container">
         <% if(typeof success !== "undefined" && success) { %>
             <div class="success">
