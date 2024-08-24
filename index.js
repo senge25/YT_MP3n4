@@ -29,7 +29,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
     res.render("index");
 });
 
