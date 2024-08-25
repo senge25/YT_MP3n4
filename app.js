@@ -1,5 +1,5 @@
 const express = require("express");
-const fetch = require("node-fetch");
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const helmet = require('helmet');
 require("dotenv").config();
 
@@ -29,8 +29,8 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/test", (req, res) => {
-    res.render("index");
+app.get("/", (req, res) => {
+    res.render("index", { success: undefined });
 });
 
 function extractVideoID(url) {
@@ -85,7 +85,6 @@ app.post("/convert", async (req, res) => {
             console.log("MP4 API Response:", JSON.stringify(fetchResponse, null, 2));
 
             if (fetchResponse.status === "ok") {
-                // 提取所有MP4格式并检查其分辨率
                 const videoFormats = Object.values(fetchResponse.link)
                     .filter(details => details[4].includes('video/mp4'))
                     .map(details => ({
@@ -95,7 +94,6 @@ app.post("/convert", async (req, res) => {
                     }))
                     .sort((a, b) => b.resolution - a.resolution);
 
-                // 输出筛选后的所有格式，供调试用
                 console.log("Available MP4 formats:", videoFormats);
 
                 if (videoFormats.length > 0) {
@@ -105,7 +103,7 @@ app.post("/convert", async (req, res) => {
                         success: true, 
                         song_title: fetchResponse.title, 
                         song_link: highestQualityVideo.url,
-                        quality: highestQualityVideo.qualityLabel // 显示选中的最高画质
+                        quality: highestQualityVideo.qualityLabel
                     });
                 } else {
                     return res.render("index", { success: false, message: "No MP4 format available for this video" });
